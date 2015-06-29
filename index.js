@@ -12,8 +12,8 @@ var multer = require('multer');
 // telegram bot
 var bot = require(__dirname + '/bot.js');
 var token = 'your example token';
-var webhookUrl = 'your weebhook url'
-var bot1 = new bot(process.env.token || token, process.env.webhookUrl || webhookUrl);
+var webhookUrl = 'your webhook url'
+var bot1 = new bot(process.env.TOKEN || token, process.env.WEBHOOK || webhookUrl);
 
 
 // engine to render HTML
