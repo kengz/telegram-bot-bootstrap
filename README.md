@@ -1,6 +1,8 @@
 # telegram-bot-bootstrap
 A bootstrap for Telegram bot with directly deployable sample bot and JS-wrapped API methods.
 
+See the full [API documentation](http://kengz.github.io/telegram-bot-bootstrap/) of this project.
+
 ## Installation
 If you wish to use only the wrapped Telegram API, do either of
 
@@ -22,7 +24,7 @@ If you haven't already, get a bot from [BotFather](https://core.telegram.org/bot
 
 
 ## Usage: only the API
-See the full API documentation.
+See the full [API documentation](http://kengz.github.io/telegram-bot-bootstrap/) of this project.
 
 `API.js` contains the [Telegram Bot API](https://core.telegram.org/bots/api) wrapped in Node. The methods will return a promise for easy chaining, and will take either a whole JSON, or multiple parameters for convenience. For the latter, everything will be serialized properly for you to send over a HTTP POST method. 
 

@@ -12,7 +12,7 @@
     "readme": "README.md",
     "template": "templates/index.ejs.html",
     "github": "https://github.com/kengz/telegram-bot-bootstrap",
-    "site": "https://github.com/kengz/telegram-bot-bootstrap"
+    "site": "http://kengz.github.io/telegram-bot-bootstrap/"
   },
   "mocha": {
     "command": "mocha --reporter doc",
