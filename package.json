@@ -37,6 +37,7 @@
     "request": "^2.58.0"
   },
   "devDependencies": {
-    "dokker": "^0.1.1"
+    "dokker": "^0.1.1",
+    "mocha": "^2.2.5"
   }
 }
