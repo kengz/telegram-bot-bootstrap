@@ -1,0 +1,23 @@
+{
+  "dir": "docs",
+  "literate": {
+    "source": "API.js",
+    "dir": "annotated"
+  },
+  "jsdoc": {
+    "title": "Telegram Bot Bootstrap",
+    "source": "API.js",
+    "markdown": "README.md",
+    "html": "index.html",
+    "readme": "README.md",
+    "template": "templates/index.ejs.html",
+    "github": "https://github.com/kengz/telegram-bot-bootstrap",
+    "site": "https://github.com/kengz/telegram-bot-bootstrap"
+  },
+  "mocha": {
+    "command": "mocha --reporter doc",
+    "test": "test/test.js",
+    "path": "tests.html",
+    "template": "templates/tests.ejs.html"
+  }
+}

@@ -1,0 +1,18 @@
+Useful Heroku Commands:
+
+heroku create appname
+git push heroku master
+heroku ps:scale web=1
+heroku open
+npm init / install —save
+foreman start [web]
+git add . / commit etc. 
+git push heroku master
+heroku open
+heroku addons:create <addonname>
+heroku run node / bash run one-off Dynos(ephemeral)
+heroku config:set TIMES=2 (config vars in process.env)
+heroku releases (like Git commits)
+heroku logs [—ps web.1] [—tail]
+
+Dynos are ephemeral and isolated: always created from slug, and all changes is lost after it closes. For shared resource and communication, use addons

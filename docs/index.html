@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" id="docs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="author" content="Dokker.js">
+  <meta name="description" content="This API documentation is built with Dokker.js at dokkerjs.com">
+  <title>Telegram Bot Bootstrap</title>
+  <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="styles.css" media="all">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+</head>
+<body>
+  <div class="toc-container">
+    <h2><code><a href=https://github.com/kengz/telegram-bot-bootstrap>Telegram Bot Bootstrap</a></code></h2>
+    <ul>
+      <li><a href="#">Introduction</a></li>
+      <li><a href=https://github.com/kengz/telegram-bot-bootstrap>Github Repository</a></li>
+      <li><a href="tests.html">Test suite</a></li>
+      <li><a href=annotated/API.js>Annotated Source</a></li>
+    </ul>
+    
+<div>
+<h2 id="-bot-"><code>Bot</code></h2>
+<ul>
+<li><a href="#handle"><code>handle</code></a></li>
+</ul>
+</div>
+<div>
+<h2 id="-telegram-api-"><code>Telegram API</code></h2>
+<ul>
+<li><a href="#forwardMessage"><code>forwardMessage</code></a></li>
+<li><a href="#getMe"><code>getMe</code></a></li>
+<li><a href="#getUpdates"><code>getUpdates</code></a></li>
+<li><a href="#getUserProfilePhotos"><code>getUserProfilePhotos</code></a></li>
+<li><a href="#sendAudio"><code>sendAudio</code></a></li>
+<li><a href="#sendChatAction"><code>sendChatAction</code></a></li>
+<li><a href="#sendDocument"><code>sendDocument</code></a></li>
+<li><a href="#sendLocation"><code>sendLocation</code></a></li>
+<li><a href="#sendMessage"><code>sendMessage</code></a></li>
+<li><a href="#sendPhoto"><code>sendPhoto</code></a></li>
+<li><a href="#sendSticker"><code>sendSticker</code></a></li>
+<li><a href="#sendVideo"><code>sendVideo</code></a></li>
+<li><a href="#setWebhook"><code>setWebhook</code></a></li>
+</ul>
+</div>
+<div>
+<h2 id="-methods-"><code>Methods</code></h2>
+</div>
+<div>
+<h2 id="-properties-"><code>Properties</code></h2>
+</div>
+
+  </div>
+  <div class="doc-container">
+    <div>  
+      
+<p>A bootstrap for Telegram bot with directly deployable sample bot and JS-wrapped API methods.</p>
+<h2 id="installation">Installation</h2>
+<p>If you wish to use only the wrapped Telegram API, do either of</p>
+<pre><code>npm install telegram-bot-bootstrap
+git clone https:<span class="hljs-comment">//github.com/kengz/telegram-bot-bootstrap.git</span>
+</code></pre><p>Either way you&#x2019;ll get a module with the Telegram bot API wrapped in Node, and a bootstrapped, deploy-ready project.</p>
+<p>If you haven&#x2019;t already, get a bot from <a href="https://core.telegram.org/bots">BotFather</a> and remember your bot <em>token</em>!</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Wrapped API methods take either a JSON object or multiple parameters, properly serialized for HTTP formData.</li>
+<li>API methods return <code>promises</code> (uses <a href="https://github.com/kriskowal/q">q</a>) for easy chaining and flow control.</li>
+<li>Complete documentation and examples usages.</li>
+<li>Bootstrapped and directly deployable bot.</li>
+</ul>
+<h2 id="usage-only-the-api">Usage: only the API</h2>
+<p>See the full API documentation.</p>
+<p><code>API.js</code> contains the <a href="https://core.telegram.org/bots/api">Telegram Bot API</a> wrapped in Node. The methods will return a promise for easy chaining, and will take either a whole JSON, or multiple parameters for convenience. For the latter, everything will be serialized properly for you to send over a HTTP POST method. </p>
+<p>If you wish to use just the API or test the bot methods, here&#x2019;s an example</p>
+<pre><code><span class="hljs-keyword">var</span> bot = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;telegram-bot-bootstrap&apos;</span>);
+
+<span class="hljs-keyword">var</span> Alice = <span class="hljs-keyword">new</span> bot(token);
+
+Alice.getUpdates().then(<span class="hljs-built_in">console</span>.log)
+<span class="hljs-comment">// &#x2192; you&apos;ll see an update message. Look for your user_id in &quot;message.from.id&quot;</span>
+
+<span class="hljs-comment">// Once you get your id to message yourself, you may:</span>
+Alice.sendMessage(your-id, <span class="hljs-string">&quot;Hello there&quot;</span>)
+<span class="hljs-comment">// &#x2192; you&apos;ll receive a message from Alice.</span>
+.then(<span class="hljs-built_in">console</span>.log)
+<span class="hljs-comment">// &#x2192; optional, will log the successful message sent over HTTP</span>
+</code></pre><h2 id="usage-bootstrapped-deployable-bot">Usage: Bootstrapped, Deployable Bot</h2>
+<p>We distinguish the bot from the API: <code>bot.js</code> extends <code>API.js</code>, and will be the deployed component.</p>
+<p>This whole project is bootstrapped and deploy-ready: all the details of HTTP and server stuff taken care of for you. I deploy this git project onto my Heroku and voila, my bot is alive.</p>
+<h4 id="setup">Setup</h4>
+<p>In addition to the <em>token</em>, you&#x2019;ll need a <em>webhookUrl</em>. If you deploy your Node app to <em>Heroku</em>, then the <em>webhookUrl</em> is simply your Heroku site url. Set both of them in the <code>.env</code> file:</p>
+<pre><code>TIMES=<span class="hljs-number">2</span>
+PORT=<span class="hljs-number">8443</span>
+TOKEN=your-Telegram-bot-token
+WEBHOOK=your-webhook-url
+</code></pre><p>The sample available is an echo-bot. To make your bot do interesting stuff, head over to <code>bot.js</code>, under the <code>handle</code> method, start writing your own from below the <em>Extend from here</em> comment. </p>
+<p>The bot inherits all the API methods, so you can simply call them for example by <code>this.sendMessage</code>.</p>
+<h4 id="deployment">Deployment</h4>
+<p>The server is deployed in <code>index.js</code>, and a bot is constructed to handle all <em>HTTP POST</em> calls from Telegram.</p>
+<p>I use <em>Heroku</em>. This shall work for any other services too. Once I&#x2019;m done setting up, I do:</p>
+<pre><code>git push heroku master
+</code></pre><p>And done. Start talking to the bot.</p>
+
+      <h2>API documentation</h2>
+      
+<div>
+<h2 id="-bot-methods-"><code>&#x201C;Bot&#x201D; Methods</code></h2>
+<div>
+<h3 id="-a-id-handle-a-handle-req-res-"><a id="handle"></a><code>handle(req, res)</code></h3>
+<p><a href="#handle">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L355" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Handles a Telegram Update object sent from the server. Extend this method for your bot.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>req</code> <em>(Object)</em>: The incoming HTTP request.</li>
+<li><code>res</code> <em>(Object)</em>: The HTTP response in return.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(Promise)</em>:  promise A promise returned from calling Telegram API method(s) for chaining.</p>
+<h4 id="example">Example</h4>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> bot1 = <span class="hljs-keyword">new</span> bot(<span class="hljs-string">&apos;yourtokenhere&apos;</span>);
+...express server setup
+app.route(<span class="hljs-string">&apos;/&apos;</span>)
+<span class="hljs-comment">// robot API as middleware</span>
+.post(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
+    bot1.handle(req, res)
+})
+<span class="hljs-comment">// Then bot will handle the incoming Update from you, routed from Telegram!</span>
+</code></pre>
+<hr>
+</div>
+</div>
+<div>
+<h2 id="-telegram-api-methods-"><code>&#x201C;Telegram API&#x201D; Methods</code></h2>
+<div>
+<h3 id="-a-id-forwardmessage-a-forwardmessage-first-from_chat_id-message_id-"><a id="forwardMessage"></a><code>forwardMessage(first, from_chat_id, message_id)</code></h3>
+<p><a href="#forwardMessage">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L148" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method to forward messages of any kind.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>first</code> <em>(JSON|integer)</em>: Your own JSON object, or chat_id: Unique identifier for the message recipient &#x2014; User or GroupChat id.</li>
+<li><code>from_chat_id</code> <em>(integer)</em>: Unique identifier for the chat where the original message was sent &#x2014; User or GroupChat id.</li>
+<li><code>message_id</code> <em>(integer)</em>: Unique message identifier</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
+<h4 id="example">Example</h4>
+<pre><code class="lang-js">forwardMessage(<span class="hljs-number">87654321</span>, <span class="hljs-number">12345678</span>, <span class="hljs-number">87654356</span>)
+<span class="hljs-comment">// &#x2192; Message is forwarded</span>
+</code></pre>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-getme-a-getme-"><a id="getMe"></a><code>getMe()</code></h3>
+<p><a href="#getMe">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L98" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>A simple method for testing your bot&#x2019;s auth token. Requires no parameters.</p>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres Basic information about the bot in form of a User object.</p>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-getupdates-a-getupdates-first-offset-limit-timeout-"><a id="getUpdates"></a><code>getUpdates([first|offset], [limit], [timeout])</code></h3>
+<p><a href="#getUpdates">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L62" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method to receive incoming updates using long polling (wiki).</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>[first|offset]</code> <em>(JSON|integer)</em>: An optional JSON object with the parameters, or the offset integer</li>
+<li><code>[limit]</code> <em>(integer)</em>:</li>
+<li><code>[timeout]</code> <em>(integer)</em>:</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres An Array of Update objects is returned.</p>
+<h4 id="example">Example</h4>
+<pre><code class="lang-js">getUpdates().then(<span class="hljs-built_in">console</span>.log)
+<span class="hljs-comment">// &#x2192; {&quot;ok&quot;:true,&quot;result&quot;:[{&quot;update_id&quot;:1234567, &quot;message&quot;:{&quot;message_id&quot;:1,&quot;from&quot;:{&quot;id&quot;:87654321, ...}}]</span>
+</code></pre>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-getuserprofilephotos-a-getuserprofilephotos-first-offset-limit-"><a id="getUserProfilePhotos"></a><code>getUserProfilePhotos(first, [offset], [limit])</code></h3>
+<p><a href="#getUserProfilePhotos">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L326" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method to get a list of profile pictures for a user.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>first</code> <em>(JSON|integer)</em>: Your own JSON object, or user_id: Unique identifier of the target user.</li>
+<li><code>[offset]</code> <em>(integer)</em>: Sequential number of the first photo to be returned. By default, all photos are returned.</li>
+<li><code>[limit]</code> <em>(integer)</em>: Limits the number of photos to be retrieved. Values between <code>1&#x2014;100</code> are accepted. Defaults to <code>10</code>0.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres Returns a UserProfilePhotos object.</p>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-sendaudio-a-sendaudio-first-audio-reply_to_message_id-reply_markup-"><a id="sendAudio"></a><code>sendAudio(first, audio, [reply_to_message_id], [reply_markup])</code></h3>
+<p><a href="#sendAudio">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L197" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>first</code> <em>(JSON|integer)</em>: Your own JSON object, or chat_id: Unique identifier for the message recipient &#x2014; User or GroupChat id.</li>
+<li><code>audio</code> <em>(inputFile|string)</em>: Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</li>
+<li><code>[reply_to_message_id]</code> <em>(integer)</em>: If the message is a reply, ID of the original message.</li>
+<li><code>[reply_markup]</code> <em>(KeyboardMarkup)</em>: Additional interface options. A JSON object <em>(don&#x2019;t worry about serializing; it&#x2019;s handled)</em> for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-sendchataction-a-sendchataction-first-action-"><a id="sendChatAction"></a><code>sendChatAction(first, action)</code></h3>
+<p><a href="#sendChatAction">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L307" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method when you need to tell the user that something is happening on the bot&#x2019;s side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>first</code> <em>(JSON|integer)</em>: Your own JSON object, or chat_id: Unique identifier for the message recipient &#x2014; User or GroupChat id..</li>
+<li><code>action</code> <em>(string)</em>: Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_audio or upload_audio for audio files, upload_document for general files, find_location for location data.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-senddocument-a-senddocument-first-document-reply_to_message_id-reply_markup-"><a id="sendDocument"></a><code>sendDocument(first, document, [reply_to_message_id], [reply_markup])</code></h3>
+<p><a href="#sendDocument">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L219" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>first</code> <em>(JSON|integer)</em>: Your own JSON object, or chat_id: Unique identifier for the message recipient &#x2014; User or GroupChat id.</li>
+<li><code>document</code> <em>(inputFile|string)</em>: File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</li>
+<li><code>[reply_to_message_id]</code> <em>(integer)</em>: If the message is a reply, ID of the original message.</li>
+<li><code>[reply_markup]</code> <em>(KeyboardMarkup)</em>: Additional interface options. A JSON object <em>(don&#x2019;t worry about serializing; it&#x2019;s handled)</em> for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-sendlocation-a-sendlocation-first-latitude-longitude-reply_to_message_id-reply_markup-"><a id="sendLocation"></a><code>sendLocation(first, latitude, longitude, [reply_to_message_id], [reply_markup])</code></h3>
+<p><a href="#sendLocation">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L286" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method to send point on the map.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>first</code> <em>(JSON|integer)</em>: Your own JSON object, or chat_id: Unique identifier for the message recipient &#x2014; User or GroupChat id.</li>
+<li><code>latitude</code> <em>(number)</em>: Latitude of location</li>
+<li><code>longitude</code> <em>(number)</em>: Longitude of location</li>
+<li><code>[reply_to_message_id]</code> <em>(integer)</em>: If the message is a reply, ID of the original message.</li>
+<li><code>[reply_markup]</code> <em>(KeyboardMarkup)</em>: Additional interface options. A JSON object <em>(don&#x2019;t worry about serializing; it&#x2019;s handled)</em> for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-sendmessage-a-sendmessage-first-text-disable_web_page_preview-reply_to_message_id-reply_markup-"><a id="sendMessage"></a><code>sendMessage(first, text, [disable_web_page_preview], [reply_to_message_id], [reply_markup])</code></h3>
+<p><a href="#sendMessage">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L122" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method to send text messages.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>first</code> <em>(JSON|integer)</em>: Your own JSON object, or chat_id: Unique identifier for the message recipient &#x2014; User or GroupChat id.</li>
+<li><code>text</code> <em>(string)</em>: Text of the message to be sent.</li>
+<li><code>[disable_web_page_preview]</code> <em>(boolean)</em>: Disables link previews for links in this message.</li>
+<li><code>[reply_to_message_id]</code> <em>(integer)</em>: If the message is a reply, ID of the original message.</li>
+<li><code>[reply_markup]</code> <em>(KeyboardMarkup)</em>: Additional interface options. A JSON object <em>(don&#x2019;t worry about serializing; it&#x2019;s handled)</em> for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
+<h4 id="example">Example</h4>
+<pre><code class="lang-js">sendMessage({chat_id: <span class="hljs-number">87654321</span>, text: <span class="hljs-string">&apos;hello world&apos;</span>})
+sendMessage(<span class="hljs-number">87654321</span>, <span class="hljs-string">&apos;hello world&apos;</span>) <span class="hljs-comment">// equivalent, cleaner</span>
+<span class="hljs-comment">// &#x2192; &apos;hello world&apos; is sent to the user with the id.</span>
+
+sendMessage(<span class="hljs-number">87654321</span>, <span class="hljs-string">&apos;hello world&apos;</span>, { keyboard: [[<span class="hljs-string">&apos;one&apos;</span>, <span class="hljs-string">&apos;two&apos;</span>], [<span class="hljs-string">&apos;three&apos;</span>], [<span class="hljs-string">&apos;four&apos;</span>]] })
+<span class="hljs-comment">// &#x2192; &apos;hello world&apos; is sent, with custom reply keyboard</span>
+</code></pre>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-sendphoto-a-sendphoto-first-photo-caption-reply_to_message_id-reply_markup-"><a id="sendPhoto"></a><code>sendPhoto(first, photo, [caption], [reply_to_message_id], [reply_markup])</code></h3>
+<p><a href="#sendPhoto">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L174" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method to send photos.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>first</code> <em>(JSON|integer)</em>: Your own JSON object, or chat_id: Unique identifier for the message recipient &#x2014; User or GroupChat id.</li>
+<li><code>photo</code> <em>(inputFile|string)</em>: Photo to send. You can either pass a file_id as String to resend a photo that is already on the Telegram servers, or upload a new photo using multipart/form-data.</li>
+<li><code>[caption]</code> <em>(string)</em>:</li>
+<li><code>[reply_to_message_id]</code> <em>(integer)</em>: If the message is a reply, ID of the original message.</li>
+<li><code>[reply_markup]</code> <em>(KeyboardMarkup)</em>: Additional interface options. A JSON object <em>(don&#x2019;t worry about serializing; it&#x2019;s handled)</em> for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
+<h4 id="example">Example</h4>
+<pre><code class="lang-js">sendMessage(<span class="hljs-number">87654321</span>, fs.createReadStream(<span class="hljs-string">&apos;localpath/to/photo.jpg&apos;</span>))
+<span class="hljs-comment">// &#x2192; The photo on local system is sent to the id.</span>
+</code></pre>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-sendsticker-a-sendsticker-first-sticker-reply_to_message_id-reply_markup-"><a id="sendSticker"></a><code>sendSticker(first, sticker, [reply_to_message_id], [reply_markup])</code></h3>
+<p><a href="#sendSticker">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L241" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method to send .webp stickers.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>first</code> <em>(JSON|integer)</em>: Your own JSON object, or chat_id: Unique identifier for the message recipient &#x2014; User or GroupChat id.</li>
+<li><code>sticker</code> <em>(inputFile|string)</em>: Sticker to send. You can either pass a file_id as String to resend a sticker that is already on the Telegram servers, or upload a new sticker using multipart/form-data.</li>
+<li><code>[reply_to_message_id]</code> <em>(integer)</em>: If the message is a reply, ID of the original message.</li>
+<li><code>[reply_markup]</code> <em>(KeyboardMarkup)</em>: Additional interface options. A JSON object <em>(don&#x2019;t worry about serializing; it&#x2019;s handled)</em> for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-sendvideo-a-sendvideo-first-video-reply_to_message_id-reply_markup-"><a id="sendVideo"></a><code>sendVideo(first, video, [reply_to_message_id], [reply_markup])</code></h3>
+<p><a href="#sendVideo">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L263" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>first</code> <em>(JSON|integer)</em>: Your own JSON object, or chat_id: Unique identifier for the message recipient &#x2014; User or GroupChat id.</li>
+<li><code>video</code> <em>(inputFile|string)</em>: Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file using multipart/form-data.</li>
+<li><code>[reply_to_message_id]</code> <em>(integer)</em>: If the message is a reply, ID of the original message.</li>
+<li><code>[reply_markup]</code> <em>(KeyboardMarkup)</em>: Additional interface options. A JSON object <em>(don&#x2019;t worry about serializing; it&#x2019;s handled)</em> for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
+<hr>
+</div>
+<div>
+<h3 id="-a-id-setwebhook-a-setwebhook-url-"><a id="setWebhook"></a><code>setWebhook(url)</code></h3>
+<p><a href="#setWebhook">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L84" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>url</code> <em>(string)</em>: A JSON object with the parameters, or the HTTPS url to send updates to. Use an empty string to remove webhook integration.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(string)</em>:  HTTPres An Array of Update objects is returned.</p>
+<hr>
+</div>
+</div>
+<div>
+<h2 id="-methods-"><code>Methods</code></h2>
+</div>
+<div>
+<h2 id="-properties-"><code>Properties</code></h2>
+</div>
+
+    </div>
+  </div>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "name": "telegram-bot-bootstrap",
+  "version": "0.0.1",
+  "description": "A bootstrap for Telegram bot with wrapped API and sample bot directly deployable to Heroku",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "./node_modules/.bin/_mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kengz/telegram-bot-bootstrap.git"
+  },
+  "keywords": [
+    "Telegram",
+    "bot",
+    "API",
+    "bootstrap",
+    "template",
+    "sample",
+    "Heroku"
+  ],
+  "author": "kengz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kengz/telegram-bot-bootstrap/issues"
+  },
+  "homepage": "https://github.com/kengz/telegram-bot-bootstrap",
+  "dependencies": {
+    "body-parser": "^1.13.1",
+    "ejs": "^2.3.1",
+    "express": "~4.9.x",
+    "lomath": "^0.1.2",
+    "morgan": "^1.6.0",
+    "multer": "^0.1.8",
+    "q": "^1.4.1",
+    "request": "^2.58.0"
+  },
+  "devDependencies": {
+    "dokker": "^0.1.1"
+  }
+}
