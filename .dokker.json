@@ -15,7 +15,7 @@
     "site": "http://kengz.github.io/telegram-bot-bootstrap/"
   },
   "mocha": {
-    "command": "mocha --reporter doc",
+    "command": "mocha -u tdd --reporter doc",
     "test": "test/test.js",
     "path": "tests.html",
     "template": "templates/tests.ejs.html"
