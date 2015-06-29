@@ -1,7 +1,7 @@
 {
   "name": "telegram-bot-bootstrap",
-  "version": "0.0.1",
-  "description": "A bootstrap for Telegram bot with wrapped API and sample bot directly deployable to Heroku",
+  "version": "0.0.2",
+  "description": "A bootstrap for Telegram bot with directly deployable sample bot and JS-wrapped API methods.",
   "main": "bot.js",
   "scripts": {
     "start": "node index.js",
