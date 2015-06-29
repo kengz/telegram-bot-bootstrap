@@ -1,4 +1,7 @@
 # telegram-bot-bootstrap
+[![npm version](https://badge.fury.io/js/telegram-bot-bootstrap.svg)](http://badge.fury.io/js/telegram-bot-bootstrap) [![Build Status](https://travis-ci.org/kengz/telegram-bot-bootstrap.svg?branch=master)](https://travis-ci.org/kengz/telegram-bot-bootstrap) [![Dependency Status](https://gemnasium.com/kengz/telegram-bot-bootstrap.svg)](https://gemnasium.com/kengz/telegram-bot-bootstrap)
+
+
 A bootstrap for Telegram bot with directly deployable sample bot and JS-wrapped API methods.
 
 See the full [API documentation](http://kengz.github.io/telegram-bot-bootstrap/) of this project.
