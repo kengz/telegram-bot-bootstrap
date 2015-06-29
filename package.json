@@ -5,7 +5,7 @@
   "main": "bot.js",
   "scripts": {
     "start": "node index.js",
-    "test": "./node_modules/.bin/_mocha -R spec"
+    "test": "node bot.js"
   },
   "repository": {
     "type": "git",
