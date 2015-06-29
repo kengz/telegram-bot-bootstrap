@@ -5,7 +5,7 @@
   "main": "bot.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node bot.js"
+    "test": "./node_modules/.bin/_mocha -u tdd -R spec"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
   "dependencies": {
     "body-parser": "^1.13.1",
     "ejs": "^2.3.1",
-    "express": "~4.9.x",
+    "express": "^4.9.x",
     "lomath": "^0.1.2",
     "morgan": "^1.6.0",
     "multer": "^0.1.8",
@@ -37,6 +37,7 @@
     "request": "^2.58.0"
   },
   "devDependencies": {
+    "chai": "^3.0.0",
     "dokker": "^0.1.1",
     "mocha": "^2.2.5"
   }
