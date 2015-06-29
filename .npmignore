@@ -1,0 +1,14 @@
+# Build and Release Folders
+bin/
+bin-debug/
+bin-release/
+node_modules/
+templates/
+.tmp/
+
+# Other files and folders
+.settings/
+
+# System files
+npm-debug.log
+.DS_Store
