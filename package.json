@@ -1,6 +1,6 @@
 {
   "name": "telegram-bot-bootstrap",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A bootstrap for Telegram bot with directly deployable sample bot and JS-wrapped API methods.",
   "main": "bot.js",
   "scripts": {

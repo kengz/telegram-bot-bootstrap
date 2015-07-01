@@ -12,6 +12,7 @@
 <!-- div -->
 
 ## `Telegram API`
+* <a href="#API">`API`</a>
 * <a href="#forwardMessage">`forwardMessage`</a>
 * <a href="#getMe">`getMe`</a>
 * <a href="#getUpdates">`getUpdates`</a>
@@ -51,7 +52,7 @@
 <!-- div -->
 
 ### <a id="handle"></a>`handle(req, res)`
-<a href="#handle">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L357 "View in source") [&#x24C9;][1]
+<a href="#handle">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L395 "View in source") [&#x24C9;][1]
 
 Handles a Telegram Update object sent from the server. Extend this method for your bot.
 
@@ -85,8 +86,47 @@ app.route('/')
 
 <!-- div -->
 
+### <a id="API"></a>`API(token)`
+<a href="#API">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L34 "View in source") [&#x24C9;][1]
+
+The API bot constructor.
+
+#### Arguments
+1. `token` *(string)*: Your Telegram bot token.
+
+#### Returns
+*(Bot)*:  The bot able to call methods.
+
+#### Example
+```js
+var fs = require('fs');
+var bot = require('telegram-bot-bootstrap');
+var Alice = new bot(your_bot_token);
+
+Alice.sendMessage(user_chat_id, 'Hey wanna see some cool art?');
+
+Alice.sendPhoto(user_chat_id, fs.createReadStream(__dirname+'/alexiuss.jpg'),  * 'Chronoscape by Alexiuss').then(console.log)
+
+var kb = {
+        keyboard: [
+            ['one'],
+            ['two', 'three'],
+            ['four', 'five', 'six']
+        ],
+        one_time_keyboard: true
+    };
+Alice.sendMessage(user_chat_id, "Choose a lucky number", undefined, undefined,  * kb)
+
+// → The messages and photos are sent to user.
+```
+* * *
+
+<!-- /div -->
+
+<!-- div -->
+
 ### <a id="forwardMessage"></a>`forwardMessage(first, from_chat_id, message_id)`
-<a href="#forwardMessage">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L150 "View in source") [&#x24C9;][1]
+<a href="#forwardMessage">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L188 "View in source") [&#x24C9;][1]
 
 Use this method to forward messages of any kind.
 
@@ -100,7 +140,7 @@ Use this method to forward messages of any kind.
 
 #### Example
 ```js
-forwardMessage(87654321, 12345678, 87654356)
+Alice.forwardMessage(87654321, 12345678, 87654356)
 // → Message is forwarded
 ```
 * * *
@@ -110,7 +150,7 @@ forwardMessage(87654321, 12345678, 87654356)
 <!-- div -->
 
 ### <a id="getMe"></a>`getMe()`
-<a href="#getMe">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L100 "View in source") [&#x24C9;][1]
+<a href="#getMe">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L130 "View in source") [&#x24C9;][1]
 
 A simple method for testing your bot's auth token. Requires no parameters.
 
@@ -124,7 +164,7 @@ A simple method for testing your bot's auth token. Requires no parameters.
 <!-- div -->
 
 ### <a id="getUpdates"></a>`getUpdates([first|offset], [limit], [timeout])`
-<a href="#getUpdates">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L64 "View in source") [&#x24C9;][1]
+<a href="#getUpdates">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L94 "View in source") [&#x24C9;][1]
 
 Use this method to receive incoming updates using long polling (wiki).
 
@@ -138,7 +178,7 @@ Use this method to receive incoming updates using long polling (wiki).
 
 #### Example
 ```js
-getUpdates().then(console.log)
+Alice.getUpdates().then(console.log)
 // → {"ok":true,"result":[{"update_id":1234567, "message":{"message_id":1,"from":{"id":87654321, ...}}]
 ```
 * * *
@@ -148,7 +188,7 @@ getUpdates().then(console.log)
 <!-- div -->
 
 ### <a id="getUserProfilePhotos"></a>`getUserProfilePhotos(first, [offset], [limit])`
-<a href="#getUserProfilePhotos">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L328 "View in source") [&#x24C9;][1]
+<a href="#getUserProfilePhotos">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L366 "View in source") [&#x24C9;][1]
 
 Use this method to get a list of profile pictures for a user.
 
@@ -167,7 +207,7 @@ Use this method to get a list of profile pictures for a user.
 <!-- div -->
 
 ### <a id="sendAudio"></a>`sendAudio(first, audio, [reply_to_message_id], [reply_markup])`
-<a href="#sendAudio">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L199 "View in source") [&#x24C9;][1]
+<a href="#sendAudio">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L237 "View in source") [&#x24C9;][1]
 
 Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
 
@@ -187,7 +227,7 @@ Use this method to send audio files, if you want Telegram clients to display the
 <!-- div -->
 
 ### <a id="sendChatAction"></a>`sendChatAction(first, action)`
-<a href="#sendChatAction">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L309 "View in source") [&#x24C9;][1]
+<a href="#sendChatAction">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L347 "View in source") [&#x24C9;][1]
 
 Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
 
@@ -205,7 +245,7 @@ Use this method when you need to tell the user that something is happening on th
 <!-- div -->
 
 ### <a id="sendDocument"></a>`sendDocument(first, document, [reply_to_message_id], [reply_markup])`
-<a href="#sendDocument">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L221 "View in source") [&#x24C9;][1]
+<a href="#sendDocument">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L259 "View in source") [&#x24C9;][1]
 
 Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
 
@@ -225,7 +265,7 @@ Use this method to send general files. On success, the sent Message is returned.
 <!-- div -->
 
 ### <a id="sendLocation"></a>`sendLocation(first, latitude, longitude, [reply_to_message_id], [reply_markup])`
-<a href="#sendLocation">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L288 "View in source") [&#x24C9;][1]
+<a href="#sendLocation">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L326 "View in source") [&#x24C9;][1]
 
 Use this method to send point on the map.
 
@@ -246,7 +286,7 @@ Use this method to send point on the map.
 <!-- div -->
 
 ### <a id="sendMessage"></a>`sendMessage(first, text, [disable_web_page_preview], [reply_to_message_id], [reply_markup])`
-<a href="#sendMessage">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L124 "View in source") [&#x24C9;][1]
+<a href="#sendMessage">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L162 "View in source") [&#x24C9;][1]
 
 Use this method to send text messages.
 
@@ -262,12 +302,20 @@ Use this method to send text messages.
 
 #### Example
 ```js
-sendMessage({chat_id: 87654321, text: 'hello world'})
-sendMessage(87654321, 'hello world') // equivalent, cleaner
+Alice.sendMessage({chat_id: 87654321, text: 'hello world'})
+Alice.sendMessage(87654321, 'hello world') // equivalent, cleaner
 // → 'hello world' is sent to the user with the id.
 
-sendMessage(87654321, 'hello world', { keyboard: [['one', 'two'], ['three'], ['four']] })
-// → 'hello world' is sent, with custom reply keyboard
+// var kb = {
+//     keyboard: [
+//         ['one'],
+//         ['two', 'three'],
+//         ['four', 'five', 'six']
+//     ],
+//     one_time_keyboard: true
+// };
+Alice.sendMessage(87654321, "Choose a lucky number", undefined, undefined, kb)
+// → 'Choose a lucky number' is sent, with custom reply keyboard
 ```
 * * *
 
@@ -276,7 +324,7 @@ sendMessage(87654321, 'hello world', { keyboard: [['one', 'two'], ['three'], ['f
 <!-- div -->
 
 ### <a id="sendPhoto"></a>`sendPhoto(first, photo, [caption], [reply_to_message_id], [reply_markup])`
-<a href="#sendPhoto">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L176 "View in source") [&#x24C9;][1]
+<a href="#sendPhoto">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L214 "View in source") [&#x24C9;][1]
 
 Use this method to send photos.
 
@@ -292,7 +340,7 @@ Use this method to send photos.
 
 #### Example
 ```js
-sendMessage(87654321, fs.createReadStream('localpath/to/photo.jpg'))
+Alice.sendMessage(87654321, fs.createReadStream('localpath/to/photo.jpg'), 'cool caption')
 // → The photo on local system is sent to the id.
 ```
 * * *
@@ -302,7 +350,7 @@ sendMessage(87654321, fs.createReadStream('localpath/to/photo.jpg'))
 <!-- div -->
 
 ### <a id="sendSticker"></a>`sendSticker(first, sticker, [reply_to_message_id], [reply_markup])`
-<a href="#sendSticker">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L243 "View in source") [&#x24C9;][1]
+<a href="#sendSticker">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L281 "View in source") [&#x24C9;][1]
 
 Use this method to send .webp stickers.
 
@@ -322,7 +370,7 @@ Use this method to send .webp stickers.
 <!-- div -->
 
 ### <a id="sendVideo"></a>`sendVideo(first, video, [reply_to_message_id], [reply_markup])`
-<a href="#sendVideo">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L265 "View in source") [&#x24C9;][1]
+<a href="#sendVideo">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L303 "View in source") [&#x24C9;][1]
 
 Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
 
@@ -342,7 +390,7 @@ Use this method to send video files, Telegram clients support mp4 videos (other 
 <!-- div -->
 
 ### <a id="setWebhook"></a>`setWebhook(url)`
-<a href="#setWebhook">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L86 "View in source") [&#x24C9;][1]
+<a href="#setWebhook">#</a> [&#x24C8;](https://github.com/kengz/telegram-bot-bootstrap#L116 "View in source") [&#x24C9;][1]
 
 Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts.
 

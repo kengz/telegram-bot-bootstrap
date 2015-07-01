@@ -2,12 +2,14 @@
 [![npm version](https://badge.fury.io/js/telegram-bot-bootstrap.svg)](http://badge.fury.io/js/telegram-bot-bootstrap) [![Build Status](https://travis-ci.org/kengz/telegram-bot-bootstrap.svg?branch=master)](https://travis-ci.org/kengz/telegram-bot-bootstrap) [![Dependency Status](https://gemnasium.com/kengz/telegram-bot-bootstrap.svg)](https://gemnasium.com/kengz/telegram-bot-bootstrap)
 
 
-A bootstrap for Telegram bot with directly deployable sample bot and JS-wrapped API methods.
+A bootstrap for Telegram bot with directly deployable sample bot and JS-wrapped API methods. You can use all methods available in the Telegram API directly, and send any supported media (we serialize the formData for you to send over HTTP).
 
 See the full [API documentation](http://kengz.github.io/telegram-bot-bootstrap/) of this project.
 
+<img src="./docs/demo-pic.jpg" width="300" style="display:inline-block" /> <img src="./docs/demo-kb.jpg" style="display:inline-block" width="300"/>
+
 ## Installation
-If you wish to use only the wrapped Telegram API, do either of
+Do either of
 
 ```
 npm install telegram-bot-bootstrap
@@ -20,7 +22,8 @@ If you haven't already, get a bot from [BotFather](https://core.telegram.org/bot
 
 
 ## Features
-- Wrapped API methods take either a JSON object or multiple parameters, properly serialized for HTTP formData.
+- Wrapped API methods take either a JSON object or multiple parameters.
+- Auto serialization for HTTP formData: send photos/keyboards/media directly.
 - API methods return `promises` (uses [q](https://github.com/kriskowal/q)) for easy chaining and flow control.
 - Complete documentation and examples usages.
 - Bootstrapped and directly deployable bot.
@@ -29,14 +32,19 @@ If you haven't already, get a bot from [BotFather](https://core.telegram.org/bot
 ## Usage: only the API
 See the full [API documentation](http://kengz.github.io/telegram-bot-bootstrap/) of this project.
 
-`API.js` contains the [Telegram Bot API](https://core.telegram.org/bots/api) wrapped in Node. The methods will return a promise for easy chaining, and will take either a whole JSON, or multiple parameters for convenience. For the latter, everything will be serialized properly for you to send over a HTTP POST method. 
+`API.js` contains the [Telegram Bot API](https://core.telegram.org/bots/api) wrapped in Node. The methods will return a promise for easy chaining, and will take either a whole JSON, or multiple parameters for convenience. For the latter, everything will be auto-serialized for HTTP so you don't have to deal with any of the nasty HTTP protocol stuff.
 
 If you wish to use just the API or test the bot methods, here's an example
 
-```
-var bot = require('telegram-bot-bootstrap');
+#### Local(not deployed yet) test bot constructor
 
-var Alice = new bot(token);
+```Javascript
+//testbot.js
+
+var bot = require('telegram-bot-bootstrap');
+var fs = require('fs');
+
+var Alice = new bot(your-token);
 
 Alice.getUpdates().then(console.log)
 // → you'll see an update message. Look for your user_id in "message.from.id"
@@ -46,8 +54,37 @@ Alice.sendMessage(your-id, "Hello there")
 // → you'll receive a message from Alice.
 .then(console.log)
 // → optional, will log the successful message sent over HTTP
+```
+
+#### Sending Message, Photo and all media
 
 ```
+Alice.sendMessage(86953862, 'Hey wanna see some cool art?');
+
+Alice.sendPhoto(86953862, fs.createReadStream(__dirname+'/alexiuss.jpg'), 'Chronoscape by Alexiuss').then(console.log)
+```
+
+You'll receive this:
+
+<img src="./docs/demo-pic.jpg" width="300" style="display:inline-block" /> 
+
+#### Custom keyboard
+
+```
+var kb = {
+        keyboard: [
+            ['one'],
+            ['two', 'three'],
+            ['four', 'five', 'six']
+        ],
+        one_time_keyboard: true
+    };
+Alice.sendMessage(86953862, "Choose a lucky number", undefined, undefined, kb)
+```
+
+ You'll get this:
+<img src="./docs/demo-kb.jpg" style="display:inline-block" width="300"/>
+
 
 ## Usage: Bootstrapped, Deployable Bot
 
@@ -57,8 +94,8 @@ This whole project is bootstrapped and deploy-ready: all the details of HTTP and
 
 #### Setup 
 In addition to the *token*, you'll need a *webhookUrl*. If you deploy your Node app to *Heroku*, then the *webhookUrl* is simply your Heroku site url. Set both of them in the `.env` file:
-```
-TIMES=2
+
+```Javascript
 PORT=8443
 TOKEN=your-Telegram-bot-token
 WEBHOOK=your-webhook-url

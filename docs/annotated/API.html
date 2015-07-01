@@ -147,8 +147,7 @@ Internal, private methods //
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> _.isArray(data) ? <span class="hljs-built_in">JSON</span>.stringify(data) : data;
-    }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> _.isArray(data) ? <span class="hljs-built_in">JSON</span>.stringify(data) : data;</pre></div></div>
             
         </li>
         
@@ -159,18 +158,11 @@ Internal, private methods //
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p>serialize a whole object proper for HTTP methods
-discard key-value pair if value is undefined
-only returns non-empty JSON</p>
+              <p>return data;</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.serialize = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
-        <span class="hljs-keyword">var</span> ser = _.omit(
-            _.mapValues(_.flattenJSON(obj), <span class="hljs-keyword">this</span>.toHTTPProper)
-            , _.isUndefined);
-        <span class="hljs-keyword">if</span> (!_.isEmpty(ser)) <span class="hljs-keyword">return</span> ser;
-    }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    }</pre></div></div>
             
         </li>
         
@@ -181,11 +173,13 @@ only returns non-empty JSON</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>properly set req as its method</p>
+              <p>serialize a whole object proper for HTTP methods
+discard key-value pair if value is undefined
+only returns non-empty JSON</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.req = req;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.serialize = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -195,6 +189,42 @@ only returns non-empty JSON</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>var ser = <em>.omit(
+    </em>.mapValues(<em>.flattenJSON(obj), this.toHTTPProper)
+    , </em>.isUndefined);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> ser = _.omit(
+            _.mapValues(obj, <span class="hljs-keyword">this</span>.toHTTPProper)
+            , _.isUndefined);
+        <span class="hljs-keyword">if</span> (!_.isEmpty(ser)) <span class="hljs-keyword">return</span> ser;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>properly set req as its method</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.req = req;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <p>Extends the options for req for the Telegram Bot.
 @param  {string} botMethod Telegram bot API method.
@@ -234,11 +264,11 @@ formData: {chat_id: 123456, text: ‘hello world’} }</p>
         </li>
         
         
-        <li id="section-12">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>shorthand composition: bot’s HTTP request</p>
 
@@ -251,11 +281,11 @@ formData: {chat_id: 123456, text: ‘hello world’} }</p>
         </li>
         
         
-        <li id="section-13">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <p>////////////////////////
 Telegram API methods //
@@ -392,11 +422,11 @@ API.prototype.getUserProfilePhotos = <span class="hljs-function"><span class="hl
         </li>
         
         
-        <li id="section-14">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>export constructor</p>
 

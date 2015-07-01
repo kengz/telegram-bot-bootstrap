@@ -6,6 +6,36 @@ var fs = require('fs');
 var req = require(__dirname + '/scraper.js').req;
 
 // The API object prototype
+/**
+ * The API bot constructor.
+ * 
+ * @category Telegram API
+ * @param {string} token Your Telegram bot token.
+ * @returns {Bot} The bot able to call methods.
+ *
+ * @example
+ * 
+ * var fs = require('fs');
+ * var bot = require('telegram-bot-bootstrap');
+ * var Alice = new bot(your_bot_token);
+ * 
+ * Alice.sendMessage(user_chat_id, 'Hey wanna see some cool art?');
+ * 
+ * Alice.sendPhoto(user_chat_id, fs.createReadStream(__dirname+'/alexiuss.jpg'),  * 'Chronoscape by Alexiuss').then(console.log)
+ * 
+ * var kb = {
+ *         keyboard: [
+ *             ['one'],
+ *             ['two', 'three'],
+ *             ['four', 'five', 'six']
+ *         ],
+ *         one_time_keyboard: true
+ *     };
+ * Alice.sendMessage(user_chat_id, "Choose a lucky number", undefined, undefined,  * kb)
+ * 
+ * // → The messages and photos are sent to user.
+ * 
+ */
 var API = function(token) {
     this.token = token;
     this.baseUrl = 'https://api.telegram.org/bot' + this.token;
@@ -32,14 +62,18 @@ var API = function(token) {
     this.toHTTPProper = function(data) {
         // currently serialize Array now, leave stream/string
         return _.isArray(data) ? JSON.stringify(data) : data;
+        // return data;
     }
 
     // serialize a whole object proper for HTTP methods
     // discard key-value pair if value is undefined
     // only returns non-empty JSON
     this.serialize = function(obj) {
+        // var ser = _.omit(
+        //     _.mapValues(_.flattenJSON(obj), this.toHTTPProper)
+        //     , _.isUndefined);
         var ser = _.omit(
-            _.mapValues(_.flattenJSON(obj), this.toHTTPProper)
+            _.mapValues(obj, this.toHTTPProper)
             , _.isUndefined);
         if (!_.isEmpty(ser)) return ser;
     }
@@ -105,7 +139,7 @@ var API = function(token) {
  * @returns {string} HTTPres An Array of Update objects is returned.
  *
  * @example
- * getUpdates().then(console.log)
+ * Alice.getUpdates().then(console.log)
  * // → {"ok":true,"result":[{"update_id":1234567, "message":{"message_id":1,"from":{"id":87654321, ...}}]
  * 
  */
@@ -161,12 +195,20 @@ API.prototype.getMe = function() {
  * @returns {string} HTTPres On success, the sent Message is returned.
  *
  * @example
- * sendMessage({chat_id: 87654321, text: 'hello world'})
- * sendMessage(87654321, 'hello world') // equivalent, cleaner
+ * Alice.sendMessage({chat_id: 87654321, text: 'hello world'})
+ * Alice.sendMessage(87654321, 'hello world') // equivalent, cleaner
  * // → 'hello world' is sent to the user with the id.
- * 
- * sendMessage(87654321, 'hello world', { keyboard: [['one', 'two'], ['three'], ['four']] })
- * // → 'hello world' is sent, with custom reply keyboard
+ *
+ * // var kb = {
+ * //     keyboard: [
+ * //         ['one'],
+ * //         ['two', 'three'],
+ * //         ['four', 'five', 'six']
+ * //     ],
+ * //     one_time_keyboard: true
+ * // };
+ * Alice.sendMessage(87654321, "Choose a lucky number", undefined, undefined, kb)
+ * // → 'Choose a lucky number' is sent, with custom reply keyboard
  * 
  */
 API.prototype.sendMessage = function(first, text, disable_web_page_preview, reply_to_message_id, reply_markup) {
@@ -191,7 +233,7 @@ API.prototype.sendMessage = function(first, text, disable_web_page_preview, repl
  * @returns {string} HTTPres On success, the sent Message is returned.
  *
  * @example
- * forwardMessage(87654321, 12345678, 87654356)
+ * Alice.forwardMessage(87654321, 12345678, 87654356)
  * // → Message is forwarded
  * 
  */
@@ -217,7 +259,7 @@ API.prototype.forwardMessage = function(first, from_chat_id, message_id) {
  * @returns {string} HTTPres On success, the sent Message is returned.
  *
  * @example
- * sendMessage(87654321, fs.createReadStream('localpath/to/photo.jpg'))
+ * Alice.sendMessage(87654321, fs.createReadStream('localpath/to/photo.jpg'), 'cool caption')
  * // → The photo on local system is sent to the id.
  * 
  */
