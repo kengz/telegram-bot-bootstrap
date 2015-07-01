@@ -143,12 +143,11 @@ Internal, private methods //
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p>if it’s string already don’t serialize
-return _.isString(data) ? data : JSON.stringify(data);</p>
+              <p>currently serialize Array now, leave stream/string</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> data;
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> _.isArray(data) ? <span class="hljs-built_in">JSON</span>.stringify(data) : data;
     }</pre></div></div>
             
         </li>
@@ -167,7 +166,9 @@ only returns non-empty JSON</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.serialize = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
-        <span class="hljs-keyword">var</span> ser = _.omit(_.mapValues(obj, <span class="hljs-keyword">this</span>.toHTTPProper), _.isUndefined);
+        <span class="hljs-keyword">var</span> ser = _.omit(
+            _.mapValues(_.flattenJSON(obj), <span class="hljs-keyword">this</span>.toHTTPProper)
+            , _.isUndefined);
         <span class="hljs-keyword">if</span> (!_.isEmpty(ser)) <span class="hljs-keyword">return</span> ser;
     }</pre></div></div>
             

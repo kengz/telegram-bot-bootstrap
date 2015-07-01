@@ -30,16 +30,17 @@ var API = function(token) {
 
     // Convert an data to format proper for HTTP methods
     this.toHTTPProper = function(data) {
-        // if it's string already don't serialize
-        // return _.isString(data) ? data : JSON.stringify(data);
-        return data;
+        // currently serialize Array now, leave stream/string
+        return _.isArray(data) ? JSON.stringify(data) : data;
     }
 
     // serialize a whole object proper for HTTP methods
     // discard key-value pair if value is undefined
     // only returns non-empty JSON
     this.serialize = function(obj) {
-        var ser = _.omit(_.mapValues(obj, this.toHTTPProper), _.isUndefined);
+        var ser = _.omit(
+            _.mapValues(_.flattenJSON(obj), this.toHTTPProper)
+            , _.isUndefined);
         if (!_.isEmpty(ser)) return ser;
     }
 
