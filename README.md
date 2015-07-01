@@ -37,10 +37,10 @@ See the full [API documentation](http://kengz.github.io/telegram-bot-bootstrap/)
 If you wish to use just the API or test the bot methods, here's an example
 
 #### Local(not deployed yet) test bot constructor
+See `testbot.js` for functional example.
 
 ```Javascript
-//testbot.js
-
+// testbot.js
 var bot = require('telegram-bot-bootstrap');
 var fs = require('fs');
 
@@ -87,6 +87,7 @@ Alice.sendMessage(86953862, "Choose a lucky number", undefined, undefined, kb)
 
 
 ## Usage: Bootstrapped, Deployable Bot
+See `index.js` for deployable app, and `bot.js` to customize bot commands.
 
 We distinguish the bot from the API: `bot.js` extends `API.js`, and will be the deployed component.
 

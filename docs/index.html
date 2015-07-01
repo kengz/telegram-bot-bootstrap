@@ -79,8 +79,8 @@ git clone https:<span class="hljs-comment">//github.com/kengz/telegram-bot-boots
 <p><code>API.js</code> contains the <a href="https://core.telegram.org/bots/api">Telegram Bot API</a> wrapped in Node. The methods will return a promise for easy chaining, and will take either a whole JSON, or multiple parameters for convenience. For the latter, everything will be auto-serialized for HTTP so you don&#x2019;t have to deal with any of the nasty HTTP protocol stuff.</p>
 <p>If you wish to use just the API or test the bot methods, here&#x2019;s an example</p>
 <h4 id="local-not-deployed-yet-test-bot-constructor">Local(not deployed yet) test bot constructor</h4>
-<pre><code class="lang-Javascript">//testbot.js
-
+<p>See <code>testbot.js</code> for functional example.</p>
+<pre><code class="lang-Javascript">// testbot.js
 var bot = require(&apos;telegram-bot-bootstrap&apos;);
 var fs = require(&apos;fs&apos;);
 
@@ -114,6 +114,7 @@ Alice.sendMessage(<span class="hljs-number">86953862</span>, <span class="hljs-s
 </code></pre><p> You&#x2019;ll get this:
 <img src="./docs/demo-kb.jpg" style="display:inline-block" width="300"></p>
 <h2 id="usage-bootstrapped-deployable-bot">Usage: Bootstrapped, Deployable Bot</h2>
+<p>See <code>index.js</code> for deployable app, and <code>bot.js</code> to customize bot commands.</p>
 <p>We distinguish the bot from the API: <code>bot.js</code> extends <code>API.js</code>, and will be the deployed component.</p>
 <p>This whole project is bootstrapped and deploy-ready: all the details of HTTP and server stuff taken care of for you. I deploy this git project onto my Heroku and voila, my bot is alive.</p>
 <h4 id="setup">Setup</h4>
