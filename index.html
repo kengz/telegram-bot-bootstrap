@@ -100,7 +100,6 @@ Alice.sendMessage(your-id, &quot;Hello there&quot;)
 
 Alice.sendPhoto(<span class="hljs-number">86953862</span>, fs.createReadStream(__dirname+<span class="hljs-string">&apos;/alexiuss.jpg&apos;</span>), <span class="hljs-string">&apos;Chronoscape by Alexiuss&apos;</span>).then(<span class="hljs-built_in">console</span>.log)
 </code></pre><p>You&#x2019;ll receive this:</p>
-
 <p><img src="./docs/demo-pic.jpg" width="300" style="display:inline-block"> </p>
 <h4 id="custom-keyboard">Custom keyboard</h4>
 <pre><code><span class="hljs-keyword">var</span> kb = {
@@ -112,8 +111,8 @@ Alice.sendPhoto(<span class="hljs-number">86953862</span>, fs.createReadStream(_
         one_time_keyboard: <span class="hljs-literal">true</span>
     };
 Alice.sendMessage(<span class="hljs-number">86953862</span>, <span class="hljs-string">&quot;Choose a lucky number&quot;</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-literal">undefined</span>, kb)
-</code></pre><p> You&#x2019;ll get this:
-<img src="./docs/demo-kb.jpg" style="display:inline-block" width="300"></p>
+</code></pre><p> You&#x2019;ll get this:</p>
+<p><img src="./docs/demo-kb.jpg" style="display:inline-block" width="300"></p>
 <h2 id="usage-bootstrapped-deployable-bot">Usage: Bootstrapped, Deployable Bot</h2>
 <p>See <code>index.js</code> for deployable app, and <code>bot.js</code> to customize bot commands.</p>
 <p>We distinguish the bot from the API: <code>bot.js</code> extends <code>API.js</code>, and will be the deployed component.</p>
