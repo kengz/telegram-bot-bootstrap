@@ -83,6 +83,7 @@ Alice.sendMessage(86953862, "Choose a lucky number", undefined, undefined, kb)
 ```
 
  You'll get this:
+ 
 <img src="./docs/demo-kb.jpg" style="display:inline-block" width="300"/>
 
 
