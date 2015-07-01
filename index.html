@@ -29,6 +29,7 @@
 <div>
 <h2 id="-telegram-api-"><code>Telegram API</code></h2>
 <ul>
+<li><a href="#API"><code>API</code></a></li>
 <li><a href="#forwardMessage"><code>forwardMessage</code></a></li>
 <li><a href="#getMe"><code>getMe</code></a></li>
 <li><a href="#getUpdates"><code>getUpdates</code></a></li>
@@ -56,47 +57,74 @@
     <div>  
       
 <p><a href="http://badge.fury.io/js/telegram-bot-bootstrap"><img src="https://badge.fury.io/js/telegram-bot-bootstrap.svg" alt="npm version"></a> <a href="https://travis-ci.org/kengz/telegram-bot-bootstrap"><img src="https://travis-ci.org/kengz/telegram-bot-bootstrap.svg?branch=master" alt="Build Status"></a> <a href="https://gemnasium.com/kengz/telegram-bot-bootstrap"><img src="https://gemnasium.com/kengz/telegram-bot-bootstrap.svg" alt="Dependency Status"></a></p>
-<p>A bootstrap for Telegram bot with directly deployable sample bot and JS-wrapped API methods.</p>
+<p>A bootstrap for Telegram bot with directly deployable sample bot and JS-wrapped API methods. You can use all methods available in the Telegram API directly, and send any supported media (we serialize the formData for you to send over HTTP).</p>
 <p>See the full <a href="http://kengz.github.io/telegram-bot-bootstrap/">API documentation</a> of this project.</p>
+<p><img src="./docs/demo-pic.jpg" width="300" style="display:inline-block"> <img src="./docs/demo-kb.jpg" style="display:inline-block" width="300"></p>
 <h2 id="installation">Installation</h2>
-<p>If you wish to use only the wrapped Telegram API, do either of</p>
+<p>Do either of</p>
 <pre><code>npm install telegram-bot-bootstrap
 git clone https:<span class="hljs-comment">//github.com/kengz/telegram-bot-bootstrap.git</span>
 </code></pre><p>Either way you&#x2019;ll get a module with the Telegram bot API wrapped in Node, and a bootstrapped, deploy-ready project.</p>
 <p>If you haven&#x2019;t already, get a bot from <a href="https://core.telegram.org/bots">BotFather</a> and remember your bot <em>token</em>!</p>
 <h2 id="features">Features</h2>
 <ul>
-<li>Wrapped API methods take either a JSON object or multiple parameters, properly serialized for HTTP formData.</li>
+<li>Wrapped API methods take either a JSON object or multiple parameters.</li>
+<li>Auto serialization for HTTP formData: send photos/keyboards/media directly.</li>
 <li>API methods return <code>promises</code> (uses <a href="https://github.com/kriskowal/q">q</a>) for easy chaining and flow control.</li>
 <li>Complete documentation and examples usages.</li>
 <li>Bootstrapped and directly deployable bot.</li>
 </ul>
 <h2 id="usage-only-the-api">Usage: only the API</h2>
 <p>See the full <a href="http://kengz.github.io/telegram-bot-bootstrap/">API documentation</a> of this project.</p>
-<p><code>API.js</code> contains the <a href="https://core.telegram.org/bots/api">Telegram Bot API</a> wrapped in Node. The methods will return a promise for easy chaining, and will take either a whole JSON, or multiple parameters for convenience. For the latter, everything will be serialized properly for you to send over a HTTP POST method. </p>
+<p><code>API.js</code> contains the <a href="https://core.telegram.org/bots/api">Telegram Bot API</a> wrapped in Node. The methods will return a promise for easy chaining, and will take either a whole JSON, or multiple parameters for convenience. For the latter, everything will be auto-serialized for HTTP so you don&#x2019;t have to deal with any of the nasty HTTP protocol stuff.</p>
 <p>If you wish to use just the API or test the bot methods, here&#x2019;s an example</p>
-<pre><code><span class="hljs-keyword">var</span> bot = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;telegram-bot-bootstrap&apos;</span>);
+<h4 id="local-not-deployed-yet-test-bot-constructor">Local(not deployed yet) test bot constructor</h4>
+<p>See <code>testbot.js</code> for functional example.</p>
+<pre><code class="lang-Javascript">// testbot.js
+var bot = require(&apos;telegram-bot-bootstrap&apos;);
+var fs = require(&apos;fs&apos;);
 
-<span class="hljs-keyword">var</span> Alice = <span class="hljs-keyword">new</span> bot(token);
+var Alice = new bot(your-token);
 
-Alice.getUpdates().then(<span class="hljs-built_in">console</span>.log)
-<span class="hljs-comment">// &#x2192; you&apos;ll see an update message. Look for your user_id in &quot;message.from.id&quot;</span>
+Alice.getUpdates().then(console.log)
+// &#x2192; you&apos;ll see an update message. Look for your user_id in &quot;message.from.id&quot;
 
-<span class="hljs-comment">// Once you get your id to message yourself, you may:</span>
-Alice.sendMessage(your-id, <span class="hljs-string">&quot;Hello there&quot;</span>)
-<span class="hljs-comment">// &#x2192; you&apos;ll receive a message from Alice.</span>
-.then(<span class="hljs-built_in">console</span>.log)
-<span class="hljs-comment">// &#x2192; optional, will log the successful message sent over HTTP</span>
-</code></pre><h2 id="usage-bootstrapped-deployable-bot">Usage: Bootstrapped, Deployable Bot</h2>
+// Once you get your id to message yourself, you may:
+Alice.sendMessage(your-id, &quot;Hello there&quot;)
+// &#x2192; you&apos;ll receive a message from Alice.
+.then(console.log)
+// &#x2192; optional, will log the successful message sent over HTTP
+</code></pre>
+<h4 id="sending-message-photo-and-all-media">Sending Message, Photo and all media</h4>
+<pre><code>Alice.sendMessage(<span class="hljs-number">86953862</span>, <span class="hljs-string">&apos;Hey wanna see some cool art?&apos;</span>);
+
+Alice.sendPhoto(<span class="hljs-number">86953862</span>, fs.createReadStream(__dirname+<span class="hljs-string">&apos;/alexiuss.jpg&apos;</span>), <span class="hljs-string">&apos;Chronoscape by Alexiuss&apos;</span>).then(<span class="hljs-built_in">console</span>.log)
+</code></pre><p>You&#x2019;ll receive this:</p>
+
+<p><img src="./docs/demo-pic.jpg" width="300" style="display:inline-block"> </p>
+<h4 id="custom-keyboard">Custom keyboard</h4>
+<pre><code><span class="hljs-keyword">var</span> kb = {
+        keyboard: [
+            [<span class="hljs-string">&apos;one&apos;</span>],
+            [<span class="hljs-string">&apos;two&apos;</span>, <span class="hljs-string">&apos;three&apos;</span>],
+            [<span class="hljs-string">&apos;four&apos;</span>, <span class="hljs-string">&apos;five&apos;</span>, <span class="hljs-string">&apos;six&apos;</span>]
+        ],
+        one_time_keyboard: <span class="hljs-literal">true</span>
+    };
+Alice.sendMessage(<span class="hljs-number">86953862</span>, <span class="hljs-string">&quot;Choose a lucky number&quot;</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-literal">undefined</span>, kb)
+</code></pre><p> You&#x2019;ll get this:
+<img src="./docs/demo-kb.jpg" style="display:inline-block" width="300"></p>
+<h2 id="usage-bootstrapped-deployable-bot">Usage: Bootstrapped, Deployable Bot</h2>
+<p>See <code>index.js</code> for deployable app, and <code>bot.js</code> to customize bot commands.</p>
 <p>We distinguish the bot from the API: <code>bot.js</code> extends <code>API.js</code>, and will be the deployed component.</p>
 <p>This whole project is bootstrapped and deploy-ready: all the details of HTTP and server stuff taken care of for you. I deploy this git project onto my Heroku and voila, my bot is alive.</p>
 <h4 id="setup">Setup</h4>
 <p>In addition to the <em>token</em>, you&#x2019;ll need a <em>webhookUrl</em>. If you deploy your Node app to <em>Heroku</em>, then the <em>webhookUrl</em> is simply your Heroku site url. Set both of them in the <code>.env</code> file:</p>
-<pre><code>TIMES=<span class="hljs-number">2</span>
-PORT=<span class="hljs-number">8443</span>
+<pre><code class="lang-Javascript">PORT=8443
 TOKEN=your-Telegram-bot-token
 WEBHOOK=your-webhook-url
-</code></pre><p>The sample available is an echo-bot. To make your bot do interesting stuff, head over to <code>bot.js</code>, under the <code>handle</code> method, start writing your own from below the <em>Extend from here</em> comment. </p>
+</code></pre>
+<p>The sample available is an echo-bot. To make your bot do interesting stuff, head over to <code>bot.js</code>, under the <code>handle</code> method, start writing your own from below the <em>Extend from here</em> comment. </p>
 <p>The bot inherits all the API methods, so you can simply call them for example by <code>this.sendMessage</code>.</p>
 <h4 id="deployment">Deployment</h4>
 <p>The server is deployed in <code>index.js</code>, and a bot is constructed to handle all <em>HTTP POST</em> calls from Telegram.</p>
@@ -110,7 +138,7 @@ WEBHOOK=your-webhook-url
 <h2 id="-bot-methods-"><code>&#x201C;Bot&#x201D; Methods</code></h2>
 <div>
 <h3 id="-a-id-handle-a-handle-req-res-"><a id="handle"></a><code>handle(req, res)</code></h3>
-<p><a href="#handle">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L357" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#handle">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L395" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Handles a Telegram Update object sent from the server. Extend this method for your bot.</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -135,8 +163,41 @@ app.route(<span class="hljs-string">&apos;/&apos;</span>)
 <div>
 <h2 id="-telegram-api-methods-"><code>&#x201C;Telegram API&#x201D; Methods</code></h2>
 <div>
+<h3 id="-a-id-api-a-api-token-"><a id="API"></a><code>API(token)</code></h3>
+<p><a href="#API">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L34" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p>The API bot constructor.</p>
+<h4 id="arguments">Arguments</h4>
+<ol>
+<li><code>token</code> <em>(string)</em>: Your Telegram bot token.</li>
+</ol>
+<h4 id="returns">Returns</h4>
+<p><em>(Bot)</em>:  The bot able to call methods.</p>
+<h4 id="example">Example</h4>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;fs&apos;</span>);
+<span class="hljs-keyword">var</span> bot = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;telegram-bot-bootstrap&apos;</span>);
+<span class="hljs-keyword">var</span> Alice = <span class="hljs-keyword">new</span> bot(your_bot_token);
+
+Alice.sendMessage(user_chat_id, <span class="hljs-string">&apos;Hey wanna see some cool art?&apos;</span>);
+
+Alice.sendPhoto(user_chat_id, fs.createReadStream(__dirname+<span class="hljs-string">&apos;/alexiuss.jpg&apos;</span>),  * <span class="hljs-string">&apos;Chronoscape by Alexiuss&apos;</span>).then(<span class="hljs-built_in">console</span>.log)
+
+<span class="hljs-keyword">var</span> kb = {
+        keyboard: [
+            [<span class="hljs-string">&apos;one&apos;</span>],
+            [<span class="hljs-string">&apos;two&apos;</span>, <span class="hljs-string">&apos;three&apos;</span>],
+            [<span class="hljs-string">&apos;four&apos;</span>, <span class="hljs-string">&apos;five&apos;</span>, <span class="hljs-string">&apos;six&apos;</span>]
+        ],
+        one_time_keyboard: <span class="hljs-literal">true</span>
+    };
+Alice.sendMessage(user_chat_id, <span class="hljs-string">&quot;Choose a lucky number&quot;</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-literal">undefined</span>,  * kb)
+
+<span class="hljs-comment">// &#x2192; The messages and photos are sent to user.</span>
+</code></pre>
+<hr>
+</div>
+<div>
 <h3 id="-a-id-forwardmessage-a-forwardmessage-first-from_chat_id-message_id-"><a id="forwardMessage"></a><code>forwardMessage(first, from_chat_id, message_id)</code></h3>
-<p><a href="#forwardMessage">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L150" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#forwardMessage">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L188" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method to forward messages of any kind.</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -147,14 +208,14 @@ app.route(<span class="hljs-string">&apos;/&apos;</span>)
 <h4 id="returns">Returns</h4>
 <p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
 <h4 id="example">Example</h4>
-<pre><code class="lang-js">forwardMessage(<span class="hljs-number">87654321</span>, <span class="hljs-number">12345678</span>, <span class="hljs-number">87654356</span>)
+<pre><code class="lang-js">Alice.forwardMessage(<span class="hljs-number">87654321</span>, <span class="hljs-number">12345678</span>, <span class="hljs-number">87654356</span>)
 <span class="hljs-comment">// &#x2192; Message is forwarded</span>
 </code></pre>
 <hr>
 </div>
 <div>
 <h3 id="-a-id-getme-a-getme-"><a id="getMe"></a><code>getMe()</code></h3>
-<p><a href="#getMe">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L100" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#getMe">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L130" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>A simple method for testing your bot&#x2019;s auth token. Requires no parameters.</p>
 <h4 id="returns">Returns</h4>
 <p><em>(string)</em>:  HTTPres Basic information about the bot in form of a User object.</p>
@@ -162,7 +223,7 @@ app.route(<span class="hljs-string">&apos;/&apos;</span>)
 </div>
 <div>
 <h3 id="-a-id-getupdates-a-getupdates-first-offset-limit-timeout-"><a id="getUpdates"></a><code>getUpdates([first|offset], [limit], [timeout])</code></h3>
-<p><a href="#getUpdates">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L64" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#getUpdates">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L94" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method to receive incoming updates using long polling (wiki).</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -173,14 +234,14 @@ app.route(<span class="hljs-string">&apos;/&apos;</span>)
 <h4 id="returns">Returns</h4>
 <p><em>(string)</em>:  HTTPres An Array of Update objects is returned.</p>
 <h4 id="example">Example</h4>
-<pre><code class="lang-js">getUpdates().then(<span class="hljs-built_in">console</span>.log)
+<pre><code class="lang-js">Alice.getUpdates().then(<span class="hljs-built_in">console</span>.log)
 <span class="hljs-comment">// &#x2192; {&quot;ok&quot;:true,&quot;result&quot;:[{&quot;update_id&quot;:1234567, &quot;message&quot;:{&quot;message_id&quot;:1,&quot;from&quot;:{&quot;id&quot;:87654321, ...}}]</span>
 </code></pre>
 <hr>
 </div>
 <div>
 <h3 id="-a-id-getuserprofilephotos-a-getuserprofilephotos-first-offset-limit-"><a id="getUserProfilePhotos"></a><code>getUserProfilePhotos(first, [offset], [limit])</code></h3>
-<p><a href="#getUserProfilePhotos">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L328" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#getUserProfilePhotos">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L366" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method to get a list of profile pictures for a user.</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -194,7 +255,7 @@ app.route(<span class="hljs-string">&apos;/&apos;</span>)
 </div>
 <div>
 <h3 id="-a-id-sendaudio-a-sendaudio-first-audio-reply_to_message_id-reply_markup-"><a id="sendAudio"></a><code>sendAudio(first, audio, [reply_to_message_id], [reply_markup])</code></h3>
-<p><a href="#sendAudio">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L199" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#sendAudio">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L237" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -209,7 +270,7 @@ app.route(<span class="hljs-string">&apos;/&apos;</span>)
 </div>
 <div>
 <h3 id="-a-id-sendchataction-a-sendchataction-first-action-"><a id="sendChatAction"></a><code>sendChatAction(first, action)</code></h3>
-<p><a href="#sendChatAction">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L309" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#sendChatAction">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L347" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method when you need to tell the user that something is happening on the bot&#x2019;s side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -222,7 +283,7 @@ app.route(<span class="hljs-string">&apos;/&apos;</span>)
 </div>
 <div>
 <h3 id="-a-id-senddocument-a-senddocument-first-document-reply_to_message_id-reply_markup-"><a id="sendDocument"></a><code>sendDocument(first, document, [reply_to_message_id], [reply_markup])</code></h3>
-<p><a href="#sendDocument">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L221" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#sendDocument">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L259" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -237,7 +298,7 @@ app.route(<span class="hljs-string">&apos;/&apos;</span>)
 </div>
 <div>
 <h3 id="-a-id-sendlocation-a-sendlocation-first-latitude-longitude-reply_to_message_id-reply_markup-"><a id="sendLocation"></a><code>sendLocation(first, latitude, longitude, [reply_to_message_id], [reply_markup])</code></h3>
-<p><a href="#sendLocation">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L288" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#sendLocation">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L326" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method to send point on the map.</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -253,7 +314,7 @@ app.route(<span class="hljs-string">&apos;/&apos;</span>)
 </div>
 <div>
 <h3 id="-a-id-sendmessage-a-sendmessage-first-text-disable_web_page_preview-reply_to_message_id-reply_markup-"><a id="sendMessage"></a><code>sendMessage(first, text, [disable_web_page_preview], [reply_to_message_id], [reply_markup])</code></h3>
-<p><a href="#sendMessage">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L124" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#sendMessage">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L162" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method to send text messages.</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -266,18 +327,26 @@ app.route(<span class="hljs-string">&apos;/&apos;</span>)
 <h4 id="returns">Returns</h4>
 <p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
 <h4 id="example">Example</h4>
-<pre><code class="lang-js">sendMessage({chat_id: <span class="hljs-number">87654321</span>, text: <span class="hljs-string">&apos;hello world&apos;</span>})
-sendMessage(<span class="hljs-number">87654321</span>, <span class="hljs-string">&apos;hello world&apos;</span>) <span class="hljs-comment">// equivalent, cleaner</span>
+<pre><code class="lang-js">Alice.sendMessage({chat_id: <span class="hljs-number">87654321</span>, text: <span class="hljs-string">&apos;hello world&apos;</span>})
+Alice.sendMessage(<span class="hljs-number">87654321</span>, <span class="hljs-string">&apos;hello world&apos;</span>) <span class="hljs-comment">// equivalent, cleaner</span>
 <span class="hljs-comment">// &#x2192; &apos;hello world&apos; is sent to the user with the id.</span>
 
-sendMessage(<span class="hljs-number">87654321</span>, <span class="hljs-string">&apos;hello world&apos;</span>, { keyboard: [[<span class="hljs-string">&apos;one&apos;</span>, <span class="hljs-string">&apos;two&apos;</span>], [<span class="hljs-string">&apos;three&apos;</span>], [<span class="hljs-string">&apos;four&apos;</span>]] })
-<span class="hljs-comment">// &#x2192; &apos;hello world&apos; is sent, with custom reply keyboard</span>
+<span class="hljs-comment">// var kb = {</span>
+<span class="hljs-comment">//     keyboard: [</span>
+<span class="hljs-comment">//         [&apos;one&apos;],</span>
+<span class="hljs-comment">//         [&apos;two&apos;, &apos;three&apos;],</span>
+<span class="hljs-comment">//         [&apos;four&apos;, &apos;five&apos;, &apos;six&apos;]</span>
+<span class="hljs-comment">//     ],</span>
+<span class="hljs-comment">//     one_time_keyboard: true</span>
+<span class="hljs-comment">// };</span>
+Alice.sendMessage(<span class="hljs-number">87654321</span>, <span class="hljs-string">&quot;Choose a lucky number&quot;</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-literal">undefined</span>, kb)
+<span class="hljs-comment">// &#x2192; &apos;Choose a lucky number&apos; is sent, with custom reply keyboard</span>
 </code></pre>
 <hr>
 </div>
 <div>
 <h3 id="-a-id-sendphoto-a-sendphoto-first-photo-caption-reply_to_message_id-reply_markup-"><a id="sendPhoto"></a><code>sendPhoto(first, photo, [caption], [reply_to_message_id], [reply_markup])</code></h3>
-<p><a href="#sendPhoto">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L176" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#sendPhoto">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L214" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method to send photos.</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -290,14 +359,14 @@ sendMessage(<span class="hljs-number">87654321</span>, <span class="hljs-string"
 <h4 id="returns">Returns</h4>
 <p><em>(string)</em>:  HTTPres On success, the sent Message is returned.</p>
 <h4 id="example">Example</h4>
-<pre><code class="lang-js">sendMessage(<span class="hljs-number">87654321</span>, fs.createReadStream(<span class="hljs-string">&apos;localpath/to/photo.jpg&apos;</span>))
+<pre><code class="lang-js">Alice.sendMessage(<span class="hljs-number">87654321</span>, fs.createReadStream(<span class="hljs-string">&apos;localpath/to/photo.jpg&apos;</span>), <span class="hljs-string">&apos;cool caption&apos;</span>)
 <span class="hljs-comment">// &#x2192; The photo on local system is sent to the id.</span>
 </code></pre>
 <hr>
 </div>
 <div>
 <h3 id="-a-id-sendsticker-a-sendsticker-first-sticker-reply_to_message_id-reply_markup-"><a id="sendSticker"></a><code>sendSticker(first, sticker, [reply_to_message_id], [reply_markup])</code></h3>
-<p><a href="#sendSticker">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L243" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#sendSticker">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L281" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method to send .webp stickers.</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -312,7 +381,7 @@ sendMessage(<span class="hljs-number">87654321</span>, <span class="hljs-string"
 </div>
 <div>
 <h3 id="-a-id-sendvideo-a-sendvideo-first-video-reply_to_message_id-reply_markup-"><a id="sendVideo"></a><code>sendVideo(first, video, [reply_to_message_id], [reply_markup])</code></h3>
-<p><a href="#sendVideo">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L265" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#sendVideo">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L303" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
@@ -327,7 +396,7 @@ sendMessage(<span class="hljs-number">87654321</span>, <span class="hljs-string"
 </div>
 <div>
 <h3 id="-a-id-setwebhook-a-setwebhook-url-"><a id="setWebhook"></a><code>setWebhook(url)</code></h3>
-<p><a href="#setWebhook">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L86" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
+<p><a href="#setWebhook">#</a> <a href="https://github.com/kengz/telegram-bot-bootstrap#L116" title="View in source">&#x24C8;</a> <a href="#bot" title="Jump back to the TOC.">&#x24C9;</a></p>
 <p>Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts.</p>
 <h4 id="arguments">Arguments</h4>
 <ol>
