@@ -215,7 +215,7 @@ API.prototype.sendMessage = function(first, text, disable_web_page_preview, repl
     var options = _.isObject(first) ?
         first : {
             chat_id: first,
-            text: text,
+            text: text || 'null-guarded; Your method is sending empty text.',
             disable_web_page_preview: disable_web_page_preview,
             reply_to_message_id: reply_to_message_id,
             reply_markup: JSON.stringify(reply_markup)
