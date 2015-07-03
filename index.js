@@ -39,6 +39,8 @@ app.route('/')
         res.render('index')
     })
     .post(function(req, res) {
+        // send back to end req-res cycle
+        res.json('okay, received\n');
         // robot handle as middleware for POST
         bot1.handle(req, res)
     })
@@ -51,4 +53,3 @@ app.route('/')
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
 });
-

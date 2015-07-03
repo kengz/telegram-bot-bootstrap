@@ -70,9 +70,6 @@ bot.prototype.handle = function(req, res) {
         // id of the chat(room)
         chat_id = Message.chat.id;
 
-    // send back to end req-res cycle
-    res.json('okay, received\n');
-
     ////////////////////////
     // Extend from here:  //
     ////////////////////////
