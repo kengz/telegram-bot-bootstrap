@@ -2,7 +2,7 @@
 var chai = require('chai'),
     should = chai.should()
 
-var bot = require(__dirname + '/../bot.js');
+var bot = require(__dirname + '/../API.js');
 
 //==============================================
 suite('Parameters setting', function() {
