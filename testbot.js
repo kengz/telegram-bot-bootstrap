@@ -1,6 +1,7 @@
 // dependencies
 var _ = require('lomath')
-var req = require(__dirname + '/scraper.js').req;
+var scraper = require('reqscraper');
+var req = scraper.req;
 
 // Test bot
 var fs = require('fs');

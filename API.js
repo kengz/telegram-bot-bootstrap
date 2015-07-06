@@ -3,7 +3,7 @@ var _ = require('lomath');
 var fs = require('fs');
 
 // imports
-var req = require(__dirname + '/scraper.js').req;
+var req = require('reqscraper').req;
 
 // The API object prototype
 /**
