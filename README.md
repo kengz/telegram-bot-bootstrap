@@ -1,6 +1,8 @@
 # telegram-bot-bootstrap
 [![npm version](https://badge.fury.io/js/telegram-bot-bootstrap.svg)](http://badge.fury.io/js/telegram-bot-bootstrap) [![Build Status](https://travis-ci.org/kengz/telegram-bot-bootstrap.svg?branch=master)](https://travis-ci.org/kengz/telegram-bot-bootstrap) [![Dependency Status](https://gemnasium.com/kengz/telegram-bot-bootstrap.svg)](https://gemnasium.com/kengz/telegram-bot-bootstrap)
 
+**NOTICE**: *I've generalized this and built a much bigger bot, [AIVA](http://kengz.me/aiva/). Go check it out!*
+
 
 A bootstrap for Telegram bot with directly deployable sample bot and JS-wrapped API methods. You can use all methods available in the Telegram API directly, and send any supported media (we serialize the formData for you to send over HTTP).
 
